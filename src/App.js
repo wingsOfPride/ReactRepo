@@ -85,7 +85,7 @@ return(
                 onChange={this.updateNewTextValue}/>
 
                 <button className='btn btn-danger mt-1' onClick={this.createNewTodo}>
-                  Add a New Task
+                  Add a New Tasks
                 </button>
 
       </div>
