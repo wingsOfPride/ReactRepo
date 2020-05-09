@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import TodoBanner from './TodoBanner';
+import TodoRow from './TodoRow';
+import TodoCreater from './TodoCreater';
 
 
 
@@ -27,14 +30,13 @@ class App extends Component{
     });
   }
 
-  createNewTodo =() => {
-if(!this.state.todoItems.find(item => item.action === this.state.newItemText))
+  createNewTodo = (task) => {
+if(!this.state.todoItems.find(item => item.action === task))
 {
   this.setState({
     todoItems: [ ...this.state.todoItems,
-              {action: this.state.newItemText,
-              done: false}],
-              newItemText: ""
+              {action: task,
+              done: false}]
 
   });
 }
@@ -53,33 +55,34 @@ if(!this.state.todoItems.find(item => item.action === this.state.newItemText))
     this.state.todoItems.map(item => item.action === todo.action ? {...item,done: !item.done} : item )});
 
 
-    todoTableRows =() => {
-      this.state.todoItems.map
+    todoTableRows = () => {
+      return(
+      
+        this.state.todoItems.map
         (item => 
-        
-          <tr key={item.action}>
-            <td>
-            {item.action}
-            </td>
-            <td>
-            <input type='checkbox' checked={item.done}
-              onChange={() => this.toggleTodo(item)}></input>  
-
-            </td>
-          </tr>
-        
-        );
+     
+          <TodoRow key={item.action}  item={item} callback={this.toggleTodo}/>
+     
+       
+        )
+      )
+    
+      
+ 
     }
 
-render(){
+render() {
 return(
 
   <div>
-    <h4 className="bg-primary text-white text-center p-2">
-      {this.state.userName}'s Todo List ({this.state.todoItems.filter(t=> !t.done).length}) items todo
-    </h4>
+    <TodoBanner name={this.state.userName} tasks={this.state.todoItems}/>
     <div className='container-fluid'>
-      <div className='m-1'>
+
+    <TodoCreater callback={this.createNewTodo}/>
+      
+     
+      {
+      /* <div className='m-1'>
         <input className='form-control'
                 value= {this.state.newItemText}
                 onChange={this.updateNewTextValue}/>
@@ -88,7 +91,26 @@ return(
                   Add a New Tasks
                 </button>
 
-      </div>
+      </div> */}
+    </div>
+    <div>
+      <table className='table table-striped'>
+        <thead>
+  <tr>
+    <th>
+      Todo Task Name
+    </th>
+    <th>
+      Done
+    </th>
+  </tr>
+        </thead>
+      <tbody>
+      { this.todoTableRows()}
+      </tbody>
+          
+     
+      </table>
     </div>
     
   </div>
