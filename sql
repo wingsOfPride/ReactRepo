@@ -1,0 +1,1 @@
+SELECT *,DATEADD(DAY, days, date) AS GOOD_THRU, (SELECT SUM(amount) FROM Payment WHERE orderRefNo = referenceNo GROUP BY orderRefNo) AS TotalAmountPaid, (totalcost - (SELECT SUM(amount) FROM Payment WHERE orderRefNo = referenceNo GROUP BY orderRefNo)) AS Remaining  FROM [dbo].[Customer_Inv_Details]
